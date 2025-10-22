@@ -16,7 +16,7 @@ test:
 
 test-cover:
 	go clean -testcache
-	go test -coverprofile=./cov-report/coverage.out ./...
+	go test -coverprofile=./cov-report/coverage.out ./internal/services/usecases/*
 	go tool cover -html=./cov-report/coverage.out
 	
 vendor: 

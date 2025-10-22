@@ -1,0 +1,13 @@
+*.crt
+*.key
+*.pb
+*.pb.go
+.env
+app
+*.exe
+coverage.out
+cov-report
+build
+.firebaserc
+firebase.json
+firebase-debug.log

@@ -41,14 +41,6 @@ func (c *GetPacksForAmount) GetForAmount(amount int) (response *usecases.GetForA
 	}
 
 	usablePacks := getUsablePacks(availablePacks, amount)
-	if len(usablePacks) == 0 {
-		err = utils.CustomError{
-			Status:        http.StatusInternalServerError,
-			Message:       "No usable packagings found",
-			OriginalError: nil,
-		}
-		return
-	}
 
 	if usablePacks[0].Size == amount {
 		response = &usecases.GetForAmountResponse{
@@ -82,25 +74,29 @@ func getUsablePacks(availablePacks []*models.Packaging, amount int) []*models.Pa
 	for i, _ := range availablePacks {
 		// if we find an exact match
 		if availablePacks[i].Size == amount {
-			return append(usablePacks, availablePacks[i])
+			usablePacks = append(usablePacks, availablePacks[i])
+			break
 		}
 
 		if availablePacks[i].Size < amount {
 			if i == 0 {
 				// all packagings are usable in the order
-				return availablePacks
+				usablePacks = availablePacks
+				break
 			} else {
 				// we get the first pack that's bigger than the amount and all that are smaller
 				// this way we can validate if it's worth to send a single pack bigger than the amount
 				// or a combination of the smaller ones
-				return availablePacks[i-1:]
+				usablePacks = availablePacks[i-1:]
+				break
 			}
 		}
 
 		// at last, if we are at the last smaller packaging, and it's still bigger than the order amount,
 		// we'll save to use just this one
 		if i == len(availablePacks)-1 && availablePacks[i].Size > amount {
-			return append(usablePacks, availablePacks[i])
+			usablePacks = append(usablePacks, availablePacks[i])
+			break
 		}
 	}
 	return usablePacks

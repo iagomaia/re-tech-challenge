@@ -6,6 +6,7 @@ COPY . .
 
 RUN mkdir -p build
 RUN go build -mod=mod -v -o ./build ./...
+RUN cp ./docs/swagger.yaml ./build/static/swagger.yaml
 
 FROM alpine:latest
 

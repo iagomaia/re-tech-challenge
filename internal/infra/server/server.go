@@ -18,5 +18,7 @@ func GetServerRoutes() *chi.Mux {
 	r.Use(middleware.AllowContentType("application/json"))
 	r.Use(middlewares.ApplicationHeaders)
 	r.Mount("/packaging", routes.GetPackagingRoutes())
+	r.Mount("/docs", routes.GetDocsRoutes())
+	r.Mount("/health", routes.GetHealthRoutes())
 	return r
 }

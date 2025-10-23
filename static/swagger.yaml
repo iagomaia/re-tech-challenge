@@ -1,0 +1,119 @@
+openapi: 3.0.0
+info:
+  title: Packaging API
+  version: 1.0.0
+  description: ''
+servers:
+  - url: localhost
+paths:
+  /packaging:
+    post:
+      summary: Create
+      tags: []
+      responses:
+        '201':
+          description: Create Success
+          headers:
+            Vary:
+              schema:
+                type: string
+            X-Cid:
+              schema:
+                type: string
+            Date:
+              schema:
+                type: string
+            Content-Length:
+              schema:
+                type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                size:
+                  type: integer
+    get:
+      summary: Get All
+      tags: []
+      responses:
+        '200':
+          description: Get Success
+          headers:
+            Vary:
+              schema:
+                type: string
+            X-Cid:
+              schema:
+                type: string
+            Date:
+              schema:
+                type: string
+            Content-Length:
+              schema:
+                type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+  /packaging/amount/{amount}:
+    get:
+      summary: Get Packages For Amount
+      tags: []
+      responses:
+        '200':
+          description: Get Packages For Amount Success
+          headers:
+            Vary:
+              schema:
+                type: string
+            X-Cid:
+              schema:
+                type: integer
+            Date:
+              schema:
+                type: string
+            Content-Length:
+              schema:
+                type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+    parameters:
+      - name: amount
+        in: path
+        required: true
+        schema:
+          type: integer
+  /packaging/{id}:
+    delete:
+      summary: Delete By ID
+      tags: []
+      responses:
+        '204':
+          description: Delete By ID Success
+          headers:
+            Vary:
+              schema:
+                type: string
+            X-Cid:
+              schema:
+                type: integer
+            Date:
+              schema:
+                type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer

@@ -15,6 +15,7 @@ test:
 	go test ./...
 
 test-cover:
+	mkdir -p cov-report
 	go clean -testcache
 	go test -coverprofile=./cov-report/coverage.out ./internal/services/usecases/*
 	go tool cover -html=./cov-report/coverage.out
@@ -26,13 +27,17 @@ run-api: ensure-dependencies vendor
 	clear
 	go run cmd/api/main.go
 
+build-docs:
+	mkdir -p static
+	cp ./docs/swagger.yaml ./static/swagger.yaml
+
 build:
 ifeq ($(OS),Windows_NT)
 	if not exist build mkdir build
 else
 	mkdir -p build
 endif
-	go build -mod=vendor -v -o ./build ./...
+	go build -mod=readonly -v -o ./build ./...
 	cp .env ./build/.env
 	mkdir -p ./build/static
 	cp ./docs/swagger.yaml ./build/static/swagger.yaml

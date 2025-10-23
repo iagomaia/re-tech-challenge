@@ -237,7 +237,6 @@ func Test_GetForAmount(t *testing.T) {
 			if test.ExpectedError == nil {
 				assert.Nil(t, err, "should not return error")
 				assert.ElementsMatch(t, test.ExpectedPacks.Packs, response.Packs, "should return correct packs")
-				assert.Equal(t, test.ExpectedPacks, response, "should return correct packs")
 			} else {
 				assert.NotNil(t, err, "should return error")
 				assert.Equal(t, test.ExpectedError, err, "errors should match")

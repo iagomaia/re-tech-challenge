@@ -2,7 +2,9 @@ openapi: 3.0.0
 info:
   title: Packaging API
   version: 1.0.0
-  description: ' Use the Get All method to see a list of available packs. Use Create and Delete By ID to modify the list. Use Get Packages for Amount to get the best package combo for the amount of items.'
+  description: '-Use the Get All method to see a list of available packs.<br/>
+  -Use Create and Delete By ID to modify the list.<br/>
+  -Use Get Packages for Amount to get the best package combo for the amount of items.'
 servers:
   - url: "https://urchin-app-qzpip.ondigitalocean.app/"
 paths:

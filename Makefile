@@ -27,10 +27,6 @@ run-api: ensure-dependencies vendor
 	clear
 	go run cmd/api/main.go
 
-build-docs:
-	mkdir -p static
-	cp ./docs/swagger.yaml ./static/swagger.yaml
-
 build:
 ifeq ($(OS),Windows_NT)
 	if not exist build mkdir build

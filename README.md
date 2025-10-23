@@ -2,9 +2,25 @@
 
 A Go service that exposes a Packaging API backed by MongoDB. This repository includes a Makefile, a Dockerfile, and a docker-compose setup to make development and execution straightforward.
 
-## Overview
-- Programming language: Go
+## TL;DR
+- The API can be accessed live here: https://urchin-app-qzpip.ondigitalocean.app/
+- Create a `.env` file based on `.env.example` to run the project locally
+- Use `make docker-run` to run the API locally
 - API default port: 3000
+- Use `curl http://localhost:3000/health` to check if the API is running
+---
+
+## Available endpoints
+- `POST /packaging` - Creates a new package of the specified `size`
+- `GET /packaging` - Gets all available packages
+- `GET /packaging/amount/{amount}` - Gets the best package combo for the specified amount following the rules:
+  - Rule 1: Only whole packs can be sent. Packs cannot be broken open.
+  - Rule 2: Within the constraints of Rule 1 above, send out the least amount of items to fulfil the order.
+  - Rule 3: Within the constraints of Rules 1 & 2 above, send out as few packs as possible to fulfil each
+    order.
+- `DELETE /packaging/{id}` - Deletes the package with the specified ID.
+
+## Overview
 - Database: MongoDB (containerized)
 - Container orchestration for local dev: docker-compose
 
@@ -109,38 +125,15 @@ If you already have a local MongoDB, adjust `DB_URL` in `.env` accordingly (e.g.
   - Port mapping: `3000:3000`
   - Depends on `mongo`
 
-## Verifying the API
-- Health or base route: Check project routing for available endpoints. If Swagger is enabled, look for `/static/swagger.yaml` or related routes.
+---
+
+## Verifying the API routing for available endpoints. If Swagger is enabled, look for `/swagger` or related routes.
 - Example curl (replace with an actual endpoint from the project):
-  - `curl http://localhost:3000/`
-
-## Troubleshooting
-- Ports already in use
-  - Ensure ports 3000 (API) and 27017 (Mongo) are free, or adjust mappings in `docker-compose.yml` and `.env`.
-
-- Cannot connect to MongoDB
-  - Verify `DB_URL` in `.env` matches your setup.
-  - If running API locally: `make db-local` first, or point to your own Mongo instance.
-  - Check logs: `docker compose logs -f mongo`.
-
-- Compose fails with old syntax
-  - Use `docker compose` (Compose V2), not `docker-compose`.
-
-- Windows notes
-  - The Makefile contains an OS check to create directories in a Windows-friendly way.
-  - If `make` is unavailable, run the equivalent Docker/Go commands manually.
-
-## Clean up
-- Stop services: `docker compose down`
-- Remove volumes/data too: `docker compose down -v`
-
-## Frequently used commands
-- Start only Mongo: `make db-local`
-- Run API locally (Go): `make run-api`
-- Start full stack (API + Mongo): `make docker-run`
-- Run tests: `make test`
-- View coverage: `make test-cover`
+  - `curl http://localhost:3000/health`
 
 ---
 
-If you encounter issues or have questions, please open an issue with details about your OS, Docker/Compose versions, and logs.
+## Health endpoint
+- GET /health
+  - Returns 200 OK with body: "Ok".
+  - Local (compose): http://localhost:3000/health

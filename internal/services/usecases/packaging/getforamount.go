@@ -72,21 +72,22 @@ func calculateTotalQty(packs []*usecases.Packs) int {
 	return totalQty
 }
 
-func getBestCombo(order int, packSizes []int) (bestTotal int, bestCombo map[int]int) {
-	if order <= 0 {
+// Use Dynamic Programming search to find the best solution
+func getBestCombo(amount int, packSizes []int) (bestTotal int, bestCombo map[int]int) {
+	if amount <= 0 {
 		return 0, map[int]int{}
 	}
 
-	// Define a reasonable upper bound for DP search
-	// e.g., slightly above the order to allow overshoot search
-	maxTotal := order + packSizes[len(packSizes)-1]
+	// Add the biggest package size to amount to get a max possible total
+	maxTotal := amount + packSizes[0]
 
 	// dp[total] = minimum packs needed to reach this total
 	dp := make([]int, maxTotal+1)
 	for i := range dp {
-		dp[i] = math.MaxInt32
+		dp[i] = math.MaxInt
 	}
-	dp[0] = 0 // 0 items requires 0 packs
+
+	dp[0] = 0 // 0 items, 0 packs
 
 	// Track the last pack used for backtracking
 	prev := make([]int, maxTotal+1)
@@ -101,17 +102,17 @@ func getBestCombo(order int, packSizes []int) (bestTotal int, bestCombo map[int]
 		}
 	}
 
-	// Find smallest total >= order that is achievable
+	// Find the smallest total >= amount that is achievable
 	bestTotal = -1
-	for total := order; total <= maxTotal; total++ {
-		if dp[total] != math.MaxInt32 {
+	for total := amount; total <= maxTotal; total++ {
+		if dp[total] != math.MaxInt {
 			bestTotal = total
 			break
 		}
 	}
 
 	if bestTotal == -1 {
-		return -1, nil // no solution
+		return -1, nil // sanity check for no solution
 	}
 
 	// Reconstruct which packs were used

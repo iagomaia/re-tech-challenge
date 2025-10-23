@@ -53,11 +53,6 @@ paths:
             Content-Length:
               schema:
                 type: integer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
   /packaging/amount/{amount}:
     get:
       summary: Get Packages For Amount
@@ -106,11 +101,6 @@ paths:
             Date:
               schema:
                 type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
     parameters:
       - name: id
         in: path

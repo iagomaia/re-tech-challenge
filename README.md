@@ -8,7 +8,6 @@ A Go service that exposes a Packaging API backed by MongoDB. This repository inc
 - Use `make docker-run` to run the API locally
 - API default port: 3000
 - Use `curl http://localhost:3000/health` to check if the API is running
----
 
 ## Available endpoints
 - `POST /packaging` - Creates a new package of the specified `size`
@@ -125,13 +124,9 @@ If you already have a local MongoDB, adjust `DB_URL` in `.env` accordingly (e.g.
   - Port mapping: `3000:3000`
   - Depends on `mongo`
 
----
-
 ## Verifying the API routing for available endpoints. If Swagger is enabled, look for `/swagger` or related routes.
 - Example curl (replace with an actual endpoint from the project):
   - `curl http://localhost:3000/health`
-
----
 
 ## Health endpoint
 - GET /health

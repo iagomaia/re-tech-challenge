@@ -4,7 +4,7 @@ RUN apk add --no-cache make
 WORKDIR $GOPATH/re-tech-challenge
 COPY . .
 
-RUN mkdir -p build
+RUN mkdir -p build/static
 RUN go build -mod=mod -v -o ./build ./...
 RUN cp ./docs/swagger.yaml ./build/static/swagger.yaml
 

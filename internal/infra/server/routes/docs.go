@@ -2,7 +2,6 @@ package routes
 
 import (
 	"github.com/go-chi/chi/v5"
-	"github.com/iagomaia/re-tech-challenge/internal/infra/utils"
 	"net/http"
 	"os"
 	"path"
@@ -25,10 +24,16 @@ func GetDocsRoutes() *chi.Mux {
 	fs := http.FileServer(http.Dir(swaggerUIDir))
 
 	r.Get("/*", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		if strings.Contains(r.URL.Path, ".css") {
+			w.Header().Set("Content-Type", "text/css")
+		} else if strings.Contains(r.URL.Path, ".js") {
+			w.Header().Set("Content-Type", "text/javascript")
+		} else {
+			w.Header().Set("Content-Type", "text/html")
+		}
+
 		rctx := chi.RouteContext(r.Context())
 		pathPrefix := strings.TrimSuffix(rctx.RoutePattern(), "/*")
-		utils.GetLogger().Info().Msgf("pathPrefix: %s", pathPrefix)
 		http.StripPrefix(pathPrefix, fs).ServeHTTP(w, r)
 	})
 	return r

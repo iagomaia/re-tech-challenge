@@ -4,7 +4,7 @@ info:
   version: 1.0.0
   description: ''
 servers:
-  - url: localhost
+  - url: "https://urchin-app-qzpip.ondigitalocean.app/"
 paths:
   /packaging:
     post:

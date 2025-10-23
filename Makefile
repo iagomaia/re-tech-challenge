@@ -39,8 +39,9 @@ else
 endif
 	go build -mod=readonly -v -o ./build ./...
 	cp .env ./build/.env
-	mkdir -p ./build/static
+	mkdir -p ./build/static/swagger-ui
 	cp ./docs/swagger.yaml ./build/static/swagger.yaml
+	cp cp -r ./static/swagger-ui ./build/static
 
 docker-build: build
 	VERSION_IMAGE=""
